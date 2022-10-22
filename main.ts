@@ -13,67 +13,100 @@ function printTree(
   withLine: boolean = true,
   separator: string = "  "
 ) {
-  const indentation = separator.repeat(indentLevel);
-  const syntaxKind = ts.SyntaxKind[node.kind];
-
   if (indentLevel != 0) {
-    let msg = withLine ? locationInFile(sourceFile, node) : "";
-    msg += `${indentation} ${syntaxKind}`;
-    if (withText) {
-      const nodeText = node.getText(sourceFile);
-      msg += `: ${nodeText}`;
-    }
-    console.log(msg);
+    console.log(
+      getFormattedText(
+        sourceFile,
+        node,
+        indentLevel,
+        withText,
+        withLine,
+        separator
+      )
+    );
   }
 
   node.forEachChild((child) => printTree(sourceFile, child, indentLevel + 1));
+}
+
+function getFormattedText(
+  sourceFile: ts.SourceFile,
+  node: ts.Node,
+  indentLevel: number,
+  withText: boolean,
+  withLine: boolean,
+  separator: string
+) {
+  const indentation = separator.repeat(indentLevel);
+  const syntaxKind = ts.SyntaxKind[node.kind];
+
+  let msg = withLine ? locationInFile(sourceFile, node) : "";
+  msg += `${indentation} ${syntaxKind}`;
+  if (withText) {
+    const nodeText = node.getText(sourceFile);
+    msg += `: ${nodeText}`;
+  }
+  return msg;
 }
 
 function locationInFile(sourceFile: ts.SourceFile, node: ts.Node): string {
   const { line, character } = sourceFile.getLineAndCharacterOfPosition(
     node.getStart()
   );
-  return `${sourceFile.fileName}:${line + 1}:${character + 1} - `;
+  return (
+    `${sourceFile.fileName}:` + `${line + 1}:${character + 1}`.padEnd(6) + "-"
+  );
+}
+
+function getNextIdentifier(node: ts.Node): ts.Node | undefined {
+  const predicate = (node: ts.Node): boolean => {
+    if (ts.isIdentifier(node)) {
+      return true;
+    }
+    return false;
+  };
+  const children = node.getChildren();
+  return children.find(predicate);
 }
 
 function analyzeFunctions(
   sourceFile: ts.SourceFile,
   node: ts.Node,
-  isInFunctionContext: boolean = false,
   indentLevel: number = 1,
   separator: string = "--------"
 ) {
   const indentation = separator.repeat(indentLevel);
-  let inFunction = isInFunctionContext;
+  let funcName: undefined | string = undefined; // is this the way to define Option<string> ?
+
   if (ts.isArrowFunction(node)) {
-    const funcIdentifier = node.parent.getChildAt(0).getText();
-    console.log(indentation + "  " + `${funcIdentifier}`);
-    inFunction = true;
+    funcName = node.parent.getChildAt(0).getText();
     indentLevel += 1;
   }
 
   if (ts.isFunctionDeclaration(node)) {
-    const funcNode = node as ts.FunctionDeclaration;
-    console.log(indentation + "  " + `${funcNode.name?.getText()}`);
-    inFunction = true;
+    funcName = getNextIdentifier(node)?.getText();
     indentLevel += 1;
   }
 
-  if (inFunction) {
-    if (ts.isCallExpression(node)) {
-      console.log(
-        indentation +
-          "  " +
-          `${node.getText()}` +
-          "\t" +
-          locationInFile(sourceFile, node)
-      );
-    }
+  if (funcName !== undefined) {
+    console.log(
+      reportFunc(locationInFile(sourceFile, node), indentation, funcName)
+    );
+  }
+
+  if (ts.isCallExpression(node)) {
+    console.log(
+      reportFunc(locationInFile(sourceFile, node), indentation, node.getText())
+    );
   }
 
   node.forEachChild((child) =>
-    analyzeFunctions(sourceFile, child, inFunction, indentLevel)
+    analyzeFunctions(sourceFile, child, indentLevel)
   );
+}
+
+function reportFunc(filename: string, separator: string, text: string): string {
+  return filename.padEnd(30) + separator + "  " + text;
 }
 
 function main() {
@@ -89,8 +122,6 @@ function main() {
       ts.ScriptTarget.ES2022, // No idea what that means
       true
     );
-
-    console.log(`${sourceFile.fileName}`);
 
     if (options.some((elem) => elem == "--tree")) {
       printTree(sourceFile, sourceFile);
