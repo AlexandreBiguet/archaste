@@ -29,7 +29,7 @@ If you try this out on your side, and it doesn't work: please let me know, but I
 
 ## How to run
 
-You probably need to `cd` in the project and `npm install` it first
+You probably need to `cd` in the project and `npm install` it first.
 
 `npx ts-node main.ts samples/foo.ts`
 
