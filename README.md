@@ -29,17 +29,4 @@ If you try this out on your side, and it doesn't work: please let me know, but I
 
 ## How to run
 
-You probably need to `cd` in the project and `npm install` it first.
-
-`npx ts-node main.ts samples/foo.ts`
-
-Currently, it should output something like:
-
-```
-➜  archaste git:(main) npx ts-node main.ts samples/foo.ts
-samples/foo.ts
---------  test
-----------------  my_logger
-------------------------  console.log(any)      samples/foo.ts:10:13 -
-----------------  my_logger("test")     samples/foo.ts:14:5 -
-```
+TODO
