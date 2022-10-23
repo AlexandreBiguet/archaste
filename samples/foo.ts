@@ -1,20 +1,18 @@
-function test() {
-  let my_logger = (any: string) => {
-    let a = console.log(any);
-    let inner = () => {
-      console.log("hello");
-    };
-    inner();
-  };
+import { helloFromBar } from "./bar";
 
-  for (let i = 0; i < 2; i++) {
-    my_logger("test");
-    my_logger("test");
-    my_logger("test");
-    my_logger("test");
-  }
-}
+// function test() {
+//   let my_logger = (any: string) => {
+//     let a = console.log(any);
+//     let inner = () => {
+//       console.log("hello");
+//     };
+//     inner();
+//   };
 
-let func = test;
+//   for (let i = 0; i < 2; i++) {
+//     my_logger("test");
+//   }
+// }
 
-func();
+// helloFromBar();
+// test();
