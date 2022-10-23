@@ -7,6 +7,8 @@ import { LogVisitor } from "./log_visitor";
 // https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API#traversing-the-ast-with-a-little-linter
 // https://learning-notes.mistermicheels.com/javascript/typescript/compiler-api/
 
+let dependencies = new Map<string, boolean>();
+
 function traverseAST(
   sourceFile: ts.SourceFile,
   node: ts.Node,
@@ -14,10 +16,8 @@ function traverseAST(
   depth: number = 1
 ) {
   if (ts.isImportDeclaration(node)) {
-    const decl = node as ImportDeclaration;
-    console.log(node.moduleSpecifier.getText());
     const options: ts.CompilerOptions = {
-      module: ts.ModuleKind.AMD,
+      module: ts.ModuleKind.AMD, // No idea what this means
       target: ts.ScriptTarget.ES5,
     };
 
@@ -37,13 +37,20 @@ function traverseAST(
         if (resolvedImport.resolvedModule !== undefined) {
           const importLoc = resolvedImport.resolvedModule?.resolvedFileName;
           if (importLoc !== undefined) {
-            console.log(
-              `File ${sourceFile.fileName} imports ${rawImport} from location ${importLoc}`
-            );
+            if (!dependencies.has(importLoc)) {
+              dependencies.set(importLoc, false);
+              console.log(
+                `File ${sourceFile.fileName} imports ${rawImport} from location ${importLoc}`
+              );
+              const moduleSourceFile = createSourceFile(importLoc);
+              traverseAST(moduleSourceFile, moduleSourceFile, visitors);
+            }
           }
         }
       });
   }
+
+  dependencies.set(sourceFile.fileName, true);
 
   if (ts.isArrowFunction(node)) {
     visitors.forEach((vis) => vis.onArrowFunc(sourceFile, node, depth));
