@@ -10,6 +10,8 @@ function test() {
     bazSaysHello();
     inner();
   };
+
+  my_logger("foobar");
 }
 
 export function circular() {
