@@ -25,6 +25,7 @@ class AdjacencyList implements GraphImplementation {
     }
 
     if (!this.adjacencyList.has(node2)) {
+      // Just to make sure we can find the name of leaf nodes
       this.adjacencyList.set(node2, []);
     }
   }
@@ -41,6 +42,18 @@ type Import = Vertex; // WTF
 //   }
 // }
 
+class JsonNode {
+  name: string;
+  parent: string | null;
+  children: Array<JsonNode>;
+
+  constructor(name: string, parent: string | null, children: Array<JsonNode>) {
+    this.name = name;
+    this.parent = parent;
+    this.children = children;
+  }
+}
+
 class ImportGraph {
   implementation: AdjacencyList = new AdjacencyList();
 
@@ -48,23 +61,7 @@ class ImportGraph {
     this.implementation.add_edge(import1, import2);
   }
 
-  toJSON(): void {
-    class JsonNode {
-      name: string;
-      parent: string | null;
-      children: Array<JsonNode>;
-
-      constructor(
-        name: string,
-        parent: string | null,
-        children: Array<JsonNode>
-      ) {
-        this.name = name;
-        this.parent = parent;
-        this.children = children;
-      }
-    }
-
+  toJSON(): JsonNode {
     const size = this.implementation.adjacencyList.size;
     const keys = Array.from(this.implementation.adjacencyList.keys());
 
@@ -91,7 +88,7 @@ class ImportGraph {
 
     let rootNode: JsonNode = treeBuilder(0, null);
 
-    console.log(JSON.stringify(rootNode));
+    return rootNode;
   }
 }
 
@@ -192,7 +189,7 @@ function main() {
     }
   });
 
-  importGraph.toJSON();
+  console.log(JSON.stringify(importGraph.toJSON()));
 }
 
 main();
