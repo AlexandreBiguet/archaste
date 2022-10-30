@@ -1,17 +1,17 @@
-
 {
-    "name": "A",
-    "parent": null,
-    "children": [
-      {
-        "name": "a",
-        "parent": "A",
-        "children": []
-      },
-      {
-        "name": "b",
-        "parent": "A",
-        "children": []
-      }
-    ]
-  }
+  "name": "samples/foo.ts",
+  "parent": null,
+  "children": [
+    {
+      "name": "samples/bar.ts",
+      "parent": "samples/foo.ts",
+      "children": [
+        {
+          "name": "samples/baz.ts",
+          "parent": "samples/bar.ts",
+          "children": []
+        }
+      ]
+    }
+  ]
+}
