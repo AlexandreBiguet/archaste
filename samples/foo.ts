@@ -18,10 +18,4 @@ export function circular() {
   console.log("hello circle");
 }
 
-//   for (let i = 0; i < 2; i++) {
-//     my_logger("test");
-//   }
-// }
-
-// helloFromBar();
-// test();
+test();
