@@ -1,20 +1,21 @@
+import { helloFromBar } from "./bar";
+import { bazSaysHello } from "./baz";
+
 function test() {
   let my_logger = (any: string) => {
     let a = console.log(any);
     let inner = () => {
-      console.log("hello");
+      helloFromBar();
     };
+    bazSaysHello();
     inner();
   };
 
-  for (let i = 0; i < 2; i++) {
-    my_logger("test");
-    my_logger("test");
-    my_logger("test");
-    my_logger("test");
-  }
+  my_logger("foobar");
 }
 
-let func = test;
+export function circular() {
+  console.log("hello circle");
+}
 
-func();
+test();

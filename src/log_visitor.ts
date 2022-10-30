@@ -7,6 +7,7 @@ export class LogVisitor implements ASTVisitor {
   padding: number = 30;
 
   onArrowFunc(sourceFile: ts.SourceFile, node: ts.Node, depth: number): void {
+    // should use ts.findAncestor
     const funcName = node.parent.getChildAt(0).getText();
     this.onNewFunc(sourceFile, node, funcName, depth);
   }
