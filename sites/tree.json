@@ -1,0 +1,216 @@
+
+{
+    "name": "functions/acceptLegalAgreements/handle.ts",
+    "parent": null,
+    "children": [
+      {
+        "name": "common/firestore/client.ts",
+        "parent": "functions/acceptLegalAgreements/handle.ts",
+        "children": []
+      },
+      {
+        "name": "common/https/errors/index.ts",
+        "parent": "functions/acceptLegalAgreements/handle.ts",
+        "children": []
+      },
+      {
+        "name": "common/https/validation/joi.ts",
+        "parent": "functions/acceptLegalAgreements/handle.ts",
+        "children": []
+      },
+      {
+        "name": "common/pubSub/index.ts",
+        "parent": "functions/acceptLegalAgreements/handle.ts",
+        "children": [
+          {
+            "name": "common/types/pubsub.ts",
+            "parent": "common/pubSub/index.ts",
+            "children": [
+              {
+                "name": "common/payments/fraud/riskHoldout.ts",
+                "parent": "common/types/pubsub.ts",
+                "children": []
+              },
+              {
+                "name": "common/users/pubSub.ts",
+                "parent": "common/types/pubsub.ts",
+                "children": []
+              },
+              {
+                "name": "common/types/metadata.ts",
+                "parent": "common/types/pubsub.ts",
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "common/pubSub/client.ts",
+            "parent": "common/pubSub/index.ts",
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "framework/auth/index.ts",
+        "parent": "functions/acceptLegalAgreements/handle.ts",
+        "children": [
+          {
+            "name": "common/clients/iam.ts",
+            "parent": "framework/auth/index.ts",
+            "children": []
+          },
+          {
+            "name": "common/grpc/errorMatchers.ts",
+            "parent": "framework/auth/index.ts",
+            "children": []
+          },
+          {
+            "name": "configuration/index.ts",
+            "parent": "framework/auth/index.ts",
+            "children": [
+              {
+                "name": "common/constants/index.ts",
+                "parent": "configuration/index.ts",
+                "children": []
+              },
+              {
+                "name": "configuration/vehicleModels.ts",
+                "parent": "configuration/index.ts",
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "framework/context/index.ts",
+            "parent": "framework/auth/index.ts",
+            "children": [
+              {
+                "name": "framework/context/extensions/performance.ts",
+                "parent": "framework/context/index.ts",
+                "children": [
+                  {
+                    "name": "framework/runtime/processEnvironment/time.ts",
+                    "parent": "framework/context/extensions/performance.ts",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "framework/context/extensions/startTime.ts",
+                "parent": "framework/context/index.ts",
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "framework/log/index.ts",
+            "parent": "framework/auth/index.ts",
+            "children": []
+          },
+          {
+            "name": "framework/auth/initialize/index.ts",
+            "parent": "framework/auth/index.ts",
+            "children": [
+              {
+                "name": "framework/auth/initialize/handlers/addReferral.ts",
+                "parent": "framework/auth/initialize/index.ts",
+                "children": []
+              },
+              {
+                "name": "framework/auth/initialize/handlers/createPaymentsServiceUser.ts",
+                "parent": "framework/auth/initialize/index.ts",
+                "children": [
+                  {
+                    "name": "common/users/userGroups.ts",
+                    "parent": "framework/auth/initialize/handlers/createPaymentsServiceUser.ts",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "framework/auth/initialize/handlers/createProcessOutAccount.ts",
+                "parent": "framework/auth/initialize/index.ts",
+                "children": [
+                  {
+                    "name": "common/firestore/collections/leases.ts",
+                    "parent": "framework/auth/initialize/handlers/createProcessOutAccount.ts",
+                    "children": []
+                  },
+                  {
+                    "name": "common/payments/providers/processOut/customer.ts",
+                    "parent": "framework/auth/initialize/handlers/createProcessOutAccount.ts",
+                    "children": [
+                      {
+                        "name": "common/clients/processOut.ts",
+                        "parent": "common/payments/providers/processOut/customer.ts",
+                        "children": [
+                          {
+                            "name": "common/fetch/index.ts",
+                            "parent": "common/clients/processOut.ts",
+                            "children": [
+                              {
+                                "name": "common/utilities/time.ts",
+                                "parent": "common/fetch/index.ts",
+                                "children": []
+                              },
+                              {
+                                "name": "common/fetch/constants.ts",
+                                "parent": "common/fetch/index.ts",
+                                "children": []
+                              },
+                              {
+                                "name": "common/fetch/errors.ts",
+                                "parent": "common/fetch/index.ts",
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "name": "common/services/processOut.ts",
+                        "parent": "common/payments/providers/processOut/customer.ts",
+                        "children": []
+                      },
+                      {
+                        "name": "common/utilities/assertions.ts",
+                        "parent": "common/payments/providers/processOut/customer.ts",
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "framework/auth/initialize/handlers/createWallets.ts",
+                "parent": "framework/auth/initialize/index.ts",
+                "children": [
+                  {
+                    "name": "common/firestore/transactions.ts",
+                    "parent": "framework/auth/initialize/handlers/createWallets.ts",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "framework/auth/initialize/handlers/populateUserDocument.ts",
+                "parent": "framework/auth/initialize/index.ts",
+                "children": [
+                  {
+                    "name": "common/users/getPhoneNumber.ts",
+                    "parent": "framework/auth/initialize/handlers/populateUserDocument.ts",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "name": "framework/auth/initialize/handlers/publishUserCreated.ts",
+                "parent": "framework/auth/initialize/index.ts",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
