@@ -29,4 +29,45 @@ If you try this out on your side, and it doesn't work: please let me know, but I
 
 ## How to run
 
-TODO
+The `sites` directory contains the webpage for rendering the tree. For now, the tree is materialized in a json file named `tree.json`, with the following format:
+
+```json
+{
+  "name": "samples/foo.ts",
+  "parent": null,
+  "children": [
+    {
+      "name": "samples/bar.ts",
+      "parent": "samples/foo.ts",
+      "children": [
+        {
+          "name": "samples/baz.ts",
+          "parent": "samples/bar.ts",
+          "children": []
+        }
+      ]
+    }
+  ]
+}
+```
+
+To generate this json, run
+
+```bash
+npx ts-node src/main.ts <path-to-file>
+```
+
+Copy paste the output of that in `tree.json` file in the `sites` directory.
+
+Then, run
+
+```bash
+npx http-server sites
+```
+
+and access the webpage at `http://127.0.0.1:8080`
+
+## Next steps
+
+- [ ] frontend - generate mermaid instead of json so that output could be added directly into a doc
+- [ ] backend - implement function call tree
