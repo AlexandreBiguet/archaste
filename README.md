@@ -69,5 +69,5 @@ and access the webpage at `http://127.0.0.1:8080`
 
 ## Next steps
 
-- [ ] frontend - generate mermaid instead of json so that output could be added directly into a doc
+- [ ] frontend - generate mermaid instead of json so that output could be added directly into a doc instead of a webpage
 - [ ] backend - implement function call tree
