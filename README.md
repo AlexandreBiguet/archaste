@@ -57,7 +57,7 @@ To generate this json, run
 npx ts-node src/main.ts <path-to-file>
 ```
 
-Copy paste the output of that in `tree.json` file in the `sites` directory.
+Copy paste the output of that command in `tree.json` file in the `sites` directory.
 
 Then, run
 
