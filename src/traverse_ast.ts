@@ -39,11 +39,7 @@ export function traverseAST(
           if (importLoc !== undefined) {
             if (!dependencies.has(importLoc)) {
               dependencies.set(importLoc, false);
-              console.log(
-                `File ${sourceFile.fileName} imports ${rawImport} from location ${importLoc}`
-              );
               const moduleSourceFile = createSourceFile(importLoc);
-
               const f1 = sourceFile.fileName;
               const f2 = moduleSourceFile.fileName;
               importGraph.add_edge(f1, f2);
