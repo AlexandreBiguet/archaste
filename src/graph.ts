@@ -13,9 +13,12 @@ class AdjacencyList implements GraphImplementation {
       this.adjacencyList.set(node1, [node2]);
     }
 
-    if (!this.adjacencyList.has(node2)) {
-      // Just to make sure we can find the name of leaf nodes
-      this.adjacencyList.set(node2, []);
+    this.add_leaf_node_name_for_lookup(node2);
+  }
+
+  add_leaf_node_name_for_lookup(node: Vertex): void {
+    if (!this.adjacencyList.has(node)) {
+      this.adjacencyList.set(node, []);
     }
   }
 
