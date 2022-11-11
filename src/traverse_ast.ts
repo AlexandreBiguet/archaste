@@ -84,5 +84,5 @@ export function createSourceFile(fileName: string): ts.SourceFile {
 }
 
 export function getImportTreeAsJSONString(): string {
-  return JSON.stringify(importGraph.toJSON()); // :shrug:
+  return JSON.stringify(importGraph.toJSON(), null, 2); // :shrug:
 }
