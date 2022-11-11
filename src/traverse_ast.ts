@@ -1,10 +1,11 @@
 import ts, { ImportDeclaration } from "typescript";
 import { readFileSync } from "fs";
 import { ASTVisitor } from "./visitor";
-import { ImportGraph } from "./graph";
+import { Graph } from "./graph";
+import { graphToJSON } from "./frontends";
 
 let dependencies = new Map<string, boolean>();
-let importGraph: ImportGraph = new ImportGraph();
+let importGraph: Graph = new Graph();
 
 export function traverseAST(
   sourceFile: ts.SourceFile,
@@ -80,5 +81,5 @@ export function createSourceFile(fileName: string): ts.SourceFile {
 }
 
 export function getImportTreeAsJSONString(): string {
-  return JSON.stringify(importGraph.toJSON(), null, 2); // :shrug:
+  return JSON.stringify(graphToJSON(importGraph.implementation), null, 2); // :shrug:
 }
