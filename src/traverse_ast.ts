@@ -85,7 +85,7 @@ export function getImportTreeAsJSONString(): string {
 }
 
 export function writeImportTreeAsMarkMapFile(
-  filename: string | undefined
+  filename: string | undefined = undefined
 ): void {
   let stream = createWriteStream("", { fd: process.stdout.fd });
 

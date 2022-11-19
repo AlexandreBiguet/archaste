@@ -37,7 +37,7 @@ function main() {
       if (options.some((elem) => elem === "--importJson")) {
         console.log(getImportTreeAsJSONString());
       } else if (options.some((elem) => elem === "--markmap")) {
-        writeImportTreeAsMarkMapFile("test.md");
+        writeImportTreeAsMarkMapFile();
       }
     }
   });
