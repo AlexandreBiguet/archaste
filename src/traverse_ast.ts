@@ -1,8 +1,8 @@
 import ts, { ImportDeclaration } from "typescript";
-import { readFileSync } from "fs";
+import { createWriteStream, readFileSync, WriteStream } from "fs";
 import { ASTVisitor } from "./visitor";
 import { Graph } from "./graph";
-import { graphToJSON } from "./frontends";
+import { graphToJSON, graphToMarkMap } from "./frontends";
 
 let dependencies = new Map<string, boolean>();
 let importGraph: Graph = new Graph();
@@ -82,4 +82,16 @@ export function createSourceFile(fileName: string): ts.SourceFile {
 
 export function getImportTreeAsJSONString(): string {
   return JSON.stringify(graphToJSON(importGraph.implementation), null, 2); // :shrug:
+}
+
+export function writeImportTreeAsMarkMapFile(
+  filename: string | undefined
+): void {
+  let stream = createWriteStream("", { fd: process.stdout.fd });
+
+  if (filename !== undefined) {
+    stream = createWriteStream(filename);
+  }
+
+  graphToMarkMap(importGraph.implementation, stream);
 }

@@ -1,5 +1,7 @@
 import ts from "typescript";
 
+// TODO move to frontends
+
 export function printTree(
   sourceFile: ts.SourceFile,
   node: ts.Node,

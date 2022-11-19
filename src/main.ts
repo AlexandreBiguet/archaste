@@ -7,6 +7,7 @@ import {
   createSourceFile,
   traverseAST,
   getImportTreeAsJSONString,
+  writeImportTreeAsMarkMapFile,
 } from "./traverse_ast";
 
 // https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API#traversing-the-ast-with-a-little-linter
@@ -26,16 +27,20 @@ function main() {
   fileNames.forEach((fileName) => {
     const sourceFile = createSourceFile(fileName);
 
-    if (options.some((elem) => elem == "--tree")) {
+    if (options.some((elem) => elem === "--tree")) {
       printTree(sourceFile, sourceFile);
     } else {
       // const visitors = [new LogVisitor()];
       const visitors: Array<LogVisitor> = [];
       traverseAST(sourceFile, sourceFile, visitors);
+
+      if (options.some((elem) => elem === "--importJson")) {
+        console.log(getImportTreeAsJSONString());
+      } else if (options.some((elem) => elem === "--markmap")) {
+        writeImportTreeAsMarkMapFile("test.md");
+      }
     }
   });
-
-  console.log(getImportTreeAsJSONString());
 }
 
 main();
