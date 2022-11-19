@@ -29,6 +29,20 @@ If you try this out on your side, and it doesn't work: please let me know, but I
 
 ## How to run
 
+### MarkMap
+
+Generate a MarkMap compatible markdown file using the following command
+
+```bash
+npm run --silent main <path-to-file> -- --markmap
+```
+
+This will write to standard output a markmap compatible markdown file.
+
+### D3.js
+
+(doesn't work well for now)
+
 The `sites` directory contains the webpage for rendering the tree. For now, the tree is materialized in a json file named `tree.json`, with the following format:
 
 ```json
@@ -54,10 +68,10 @@ The `sites` directory contains the webpage for rendering the tree. For now, the 
 To generate this json, run
 
 ```bash
-npx ts-node src/main.ts <path-to-file>
+npm run --silent main <path-to-file> -- --importJson
 ```
 
-Copy paste the output of that command in `tree.json` file in the `sites` directory.
+This will write a json file to standard output, which you can redirect to `sites/tree.json` file.
 
 Then, run
 
