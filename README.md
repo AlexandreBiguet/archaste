@@ -31,7 +31,7 @@ If you try this out on your side, and it doesn't work: please let me know, but I
 
 ### MarkMap
 
-Generate a MarkMap compatible markdown file using the following command
+Generate a [MarkMap](https://markmap.js.org/) compatible markdown file using the following command
 
 ```bash
 npm run --silent main <path-to-file> -- --markmap
