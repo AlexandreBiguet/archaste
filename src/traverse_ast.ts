@@ -1,5 +1,5 @@
-import ts, { ImportDeclaration } from "typescript";
-import { createWriteStream, readFileSync, WriteStream } from "fs";
+import ts from "typescript";
+import { createWriteStream, readFileSync } from "fs";
 import { ASTVisitor } from "./visitor";
 import { Graph } from "./graph";
 import { graphToJSON, graphToMarkMap } from "./frontends";
