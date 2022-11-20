@@ -8,6 +8,7 @@ import {
   traverseAST,
   getImportTreeAsJSONString,
   writeImportTreeAsMarkMapFile,
+  writeImportTreeAsMermaidFile,
 } from "./traverse_ast";
 
 // https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API#traversing-the-ast-with-a-little-linter
@@ -38,6 +39,8 @@ function main() {
         console.log(getImportTreeAsJSONString());
       } else if (options.some((elem) => elem === "--markmap")) {
         writeImportTreeAsMarkMapFile();
+      } else if (options.some((elem) => elem === "--mermaid")) {
+        writeImportTreeAsMermaidFile();
       }
     }
   });

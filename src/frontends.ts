@@ -146,3 +146,24 @@ markmap:
 --- \n\n`
   );
 }
+
+export function graphToMermaid(
+  graph: AdjacencyList,
+  stream: NodeJS.WritableStream
+) {
+  const separator = "\t";
+  const endLine = "\n";
+  const edge = " --> ";
+  const direction = "TD";
+
+  stream.write("```mermaid" + endLine);
+  stream.write("graph " + direction + endLine);
+
+  for (let [key, imports] of graph.adjacencyList) {
+    imports.forEach((importItem) =>
+      stream.write(separator + key + edge + importItem + endLine)
+    );
+  }
+
+  stream.write("```" + endLine);
+}

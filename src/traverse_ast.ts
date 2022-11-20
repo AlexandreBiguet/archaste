@@ -2,7 +2,7 @@ import ts from "typescript";
 import { createWriteStream, readFileSync } from "fs";
 import { ASTVisitor } from "./visitor";
 import { Graph } from "./graph";
-import { graphToJSON, graphToMarkMap } from "./frontends";
+import { graphToJSON, graphToMarkMap, graphToMermaid } from "./frontends";
 
 let dependencies = new Map<string, boolean>();
 let importGraph: Graph = new Graph();
@@ -87,11 +87,23 @@ export function getImportTreeAsJSONString(): string {
 export function writeImportTreeAsMarkMapFile(
   filename: string | undefined = undefined
 ): void {
+  graphToMarkMap(importGraph.implementation, createStreamOrStdout(filename));
+}
+
+export function writeImportTreeAsMermaidFile(
+  filename: string | undefined = undefined
+) {
+  graphToMermaid(importGraph.implementation, createStreamOrStdout(filename));
+}
+
+function createStreamOrStdout(
+  filename: string | undefined = undefined
+): NodeJS.WritableStream {
   let stream = createWriteStream("", { fd: process.stdout.fd });
 
   if (filename !== undefined) {
     stream = createWriteStream(filename);
   }
 
-  graphToMarkMap(importGraph.implementation, stream);
+  return stream;
 }
