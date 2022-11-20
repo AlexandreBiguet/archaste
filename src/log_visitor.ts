@@ -1,6 +1,6 @@
 import ts from "typescript";
 import { ASTVisitor } from "./visitor";
-import { locationInFile } from "./tree_visualizer";
+import { locationInFile } from "./frontends";
 
 export class LogVisitor implements ASTVisitor {
   separator: string = "-";

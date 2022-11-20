@@ -1,6 +1,6 @@
 import { existsSync } from "fs";
 
-import { printTree } from "./tree_visualizer";
+import { printTree } from "./frontends";
 
 import { LogVisitor } from "./log_visitor";
 import {
