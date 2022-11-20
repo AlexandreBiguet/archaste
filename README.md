@@ -73,8 +73,5 @@ and access the webpage at `http://127.0.0.1:8080`
 
 ## Next steps
 
-- [ ] frontend: generate several output types
-  - [ ] generate mermaid compatible markdown file
-  - [ ] generate markmap compatible markdown file
 - [ ] backend - implement function call tree
 - [ ] make main executable a decent cli (probably using [commander](https://www.npmjs.com/package/commander))
