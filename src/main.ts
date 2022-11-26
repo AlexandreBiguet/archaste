@@ -1,8 +1,8 @@
 import { existsSync } from "fs";
 
 import { printTree } from "./frontends";
+import { LogVisitor } from "./visitors";
 
-import { LogVisitor } from "./log_visitor";
 import {
   createSourceFile,
   traverseAST,
@@ -31,8 +31,10 @@ function main() {
     if (options.some((elem) => elem === "--tree")) {
       printTree(sourceFile, sourceFile);
     } else {
-      // const visitors = [new LogVisitor()];
-      const visitors: Array<LogVisitor> = [];
+      let visitors: Array<LogVisitor> = [];
+      if (options.some((elem) => elem === "--log-visitor")) {
+        visitors = [new LogVisitor()];
+      }
       traverseAST(sourceFile, sourceFile, visitors);
 
       if (options.some((elem) => elem === "--importJson")) {
