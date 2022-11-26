@@ -1,6 +1,6 @@
 import ts from "typescript";
 import { createWriteStream, readFileSync } from "fs";
-import { ASTVisitor } from "./visitor";
+import { ASTVisitor } from "./visitors";
 import { Graph } from "./graph";
 import { graphToJSON, graphToMarkMap, graphToMermaid } from "./frontends";
 

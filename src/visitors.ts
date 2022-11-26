@@ -1,5 +1,11 @@
 import ts from "typescript";
-import { ASTVisitor } from "./visitor";
+
+export interface ASTVisitor {
+  onArrowFunc(sourceFile: ts.SourceFile, node: ts.Node, depth: number): void;
+  onFuncDecl(sourceFile: ts.SourceFile, node: ts.Node, depth: number): void;
+  onCallExp(sourceFile: ts.SourceFile, node: ts.Node, depth: number): void;
+}
+
 import { locationInFile } from "./frontends";
 
 export class LogVisitor implements ASTVisitor {
