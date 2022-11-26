@@ -75,3 +75,4 @@ and access the webpage at `http://127.0.0.1:8080`
 
 - [ ] backend - implement function call tree
 - [ ] make main executable a decent cli (probably using [commander](https://www.npmjs.com/package/commander))
+  - [ ] import tree: currently, edges are read "imports" but could be nice to have the user choose the direction (imports, imported by)
