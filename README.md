@@ -8,7 +8,6 @@ I'm currently dealing with a quite large typescript codebase, deployed to hundre
 
 I'd like to build a mapping of functions and what they are accessing (what tables / collections, what services).
 
-As this is a personal project, I'd also like to have some fun.
 
 ## Ideas
 
