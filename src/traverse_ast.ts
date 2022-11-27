@@ -1,11 +1,9 @@
 import ts from "typescript";
 import { createWriteStream, readFileSync } from "fs";
 import { ASTVisitor } from "./visitors";
-import { Graph } from "./graph";
 import { graphToJSON, graphToMarkMap, graphToMermaid } from "./frontends";
 
 let dependencies = new Map<string, boolean>();
-let importGraph: Graph = new Graph();
 
 export function traverseAST(
   sourceFile: ts.SourceFile,
@@ -44,9 +42,6 @@ export function traverseAST(
             if (!dependencies.has(importLoc)) {
               dependencies.set(importLoc, false);
               const moduleSourceFile = createSourceFile(importLoc);
-              const f1 = sourceFile.fileName;
-              const f2 = moduleSourceFile.fileName;
-              importGraph.add_edge(f1, f2);
 
               traverseAST(moduleSourceFile, moduleSourceFile, visitors);
             }
@@ -83,36 +78,4 @@ export function createSourceFile(fileName: string): ts.SourceFile {
     ts.ScriptTarget.ES2015,
     true
   );
-}
-
-export function printGraphImplementation(): void {
-  console.log(importGraph.implementation);
-}
-
-export function getImportTreeAsJSONString(): string {
-  return JSON.stringify(graphToJSON(importGraph.implementation), null, 2); // :shrug:
-}
-
-export function writeImportTreeAsMarkMapFile(
-  filename: string | undefined = undefined
-): void {
-  graphToMarkMap(importGraph.implementation, createStreamOrStdout(filename));
-}
-
-export function writeImportTreeAsMermaidFile(
-  filename: string | undefined = undefined
-) {
-  graphToMermaid(importGraph.implementation, createStreamOrStdout(filename));
-}
-
-export function createStreamOrStdout(
-  filename: string | undefined = undefined
-): NodeJS.WritableStream {
-  let stream = createWriteStream("", { fd: process.stdout.fd });
-
-  if (filename !== undefined) {
-    stream = createWriteStream(filename);
-  }
-
-  return stream;
 }
