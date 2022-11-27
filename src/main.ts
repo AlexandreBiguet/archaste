@@ -6,7 +6,11 @@ import {
   graphToMarkMap,
   graphToMermaid,
 } from "./frontends";
-import { ASTVisitor, LogVisitor, Visitor } from "./visitors";
+import {
+  ASTVisitorInterface,
+  createASTVisitor,
+  createLogVisitor,
+} from "./visitors";
 
 import { createSourceFile, traverseAST } from "./traverse_ast";
 import { Graph } from "./graph";
@@ -31,13 +35,13 @@ function main() {
     if (options.some((elem) => elem === "--tree")) {
       printTree(sourceFile, sourceFile);
     } else {
-      let visitors: Array<ASTVisitor> = [];
+      let visitors: Array<ASTVisitorInterface> = [];
       if (options.some((elem) => elem === "--log-visitor")) {
-        visitors.push(new LogVisitor());
+        visitors.push(createLogVisitor());
       }
 
       let graph = new Graph();
-      visitors.push(new Visitor(graph));
+      visitors.push(createASTVisitor(graph));
 
       traverseAST(sourceFile, sourceFile, visitors);
 
