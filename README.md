@@ -34,6 +34,10 @@ or a [MarkMap](https://markmap.js.org/):
 
 ![Not found](./samples/imports.gif)
 
+or d3.js tree:
+
+![Not found](./sites/output.gif)
+
 ### MarkMap
 
 Generate a [MarkMap](https://markmap.js.org/) compatible markdown file using the following command:
