@@ -10,9 +10,6 @@ import {
 import { createSourceFile, traverseAST } from "./traverse_ast";
 import { Graph } from "./graph";
 
-// https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API#traversing-the-ast-with-a-little-linter
-// https://learning-notes.mistermicheels.com/javascript/typescript/compiler-api/
-
 function main() {
   const args = process.argv.slice(2);
 

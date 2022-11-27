@@ -1,31 +1,18 @@
 # archaste
 
-Using typescript compiler to discover what my ts code does
+Using typescript compiler to discover what your typescript code does.
 
-## Context
+## Problem this tool tries to solve
 
-I'd like to figure out what my team and I should do (if anything) about the ~500 cloud functions we have deployed in GCP, accessing lots of services & databases.
+I'm currently dealing with a quite large typescript codebase, deployed to hundreds of cloud functions, all accessing lots of services and databases.
 
-I started to analyze manually a first function, building architecture & sequence diagrams. Took me 2 hours.
+I'd like to build a mapping of functions and what they are accessing (what tables / collections, what services).
 
-My hypothesis is: in order for me to understand what can be done, I don't need to go in details for each function, but rather build a mapping of (functions, list of services / databases accessed) to get an high level overview of who accesses what.
+As this is a personal project, I'd also like to have some fun.
 
 ## Ideas
 
-1. I initially wanted to kind of monkey patch the clients we have for these services, and run our test suite. Tried, too long, not fun.
-1. Use / build a code analyzer. Fun. No idea if it'll work
-
-Decided to do it the fun way (:tada:), because
-
-- It's Saturday,
-- I'm not on-call,
-- I don't know anything about typescript, I'll probably learn some stuff!
-
-## Disclaimer
-
-It's my first non hello-world program in ts: I've basically no idea what I'm doing.
-
-If you try this out on your side, and it doesn't work: please let me know, but I'm sure you know more than me!
+This tool uses the typescript compiler to analyze the code, and hopefully solve the problem. (This is probably not the best of ideas, but it's fun )
 
 ## How to run
 
@@ -76,3 +63,13 @@ and access the webpage at `http://127.0.0.1:8080`
 - [ ] backend - implement function call tree
 - [ ] make main executable a decent cli (probably using [commander](https://www.npmjs.com/package/commander))
   - [ ] import tree: currently, edges are read "imports" but could be nice to have the user choose the direction (imports, imported by)
+
+## Resources
+
+Things I used to build this tool:
+
+[1] https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API#traversing-the-ast-with-a-little-linter
+
+[2] https://learning-notes.mistermicheels.com/javascript/typescript/compiler-api/
+
+[3] https://ts-ast-viewer.com/#
