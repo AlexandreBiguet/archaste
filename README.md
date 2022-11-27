@@ -82,7 +82,7 @@ and access the webpage at `http://127.0.0.1:8080`
 
 ## Resources
 
-Things I used to build this tool:
+Useful resources I've used:
 
 [1] https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API#traversing-the-ast-with-a-little-linter
 
