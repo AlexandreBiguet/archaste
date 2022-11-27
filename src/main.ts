@@ -1,11 +1,6 @@
 import { existsSync } from "fs";
 import { createWriteStream } from "fs";
-import {
-  printTree,
-  graphToJSON,
-  graphToMarkMap,
-  graphToMermaid,
-} from "./frontends";
+import { graphToJSON, graphToMarkMap, graphToMermaid } from "./frontends";
 import {
   ASTVisitorInterface,
   createASTVisitor,
@@ -32,26 +27,22 @@ function main() {
   fileNames.forEach((fileName) => {
     const sourceFile = createSourceFile(fileName);
 
-    if (options.some((elem) => elem === "--tree")) {
-      printTree(sourceFile, sourceFile);
-    } else {
-      let visitors: Array<ASTVisitorInterface> = [];
-      if (options.some((elem) => elem === "--log-visitor")) {
-        visitors.push(createLogVisitor());
-      }
+    let visitors: Array<ASTVisitorInterface> = [];
+    if (options.some((elem) => elem === "--log-visitor")) {
+      visitors.push(createLogVisitor());
+    }
 
-      let graph = new Graph();
-      visitors.push(createASTVisitor(graph));
+    let graph = new Graph();
+    visitors.push(createASTVisitor(graph));
 
-      traverseAST(sourceFile, sourceFile, visitors);
+    traverseAST(sourceFile, sourceFile, visitors);
 
-      if (options.some((elem) => elem === "--importJson")) {
-        console.log(JSON.stringify(graphToJSON(graph.implementation), null, 2));
-      } else if (options.some((elem) => elem === "--markmap")) {
-        graphToMarkMap(graph.implementation, createStreamOrStdout());
-      } else if (options.some((elem) => elem === "--mermaid")) {
-        graphToMermaid(graph.implementation, createStreamOrStdout());
-      }
+    if (options.some((elem) => elem === "--importJson")) {
+      console.log(JSON.stringify(graphToJSON(graph.implementation), null, 2));
+    } else if (options.some((elem) => elem === "--markmap")) {
+      graphToMarkMap(graph.implementation, createStreamOrStdout());
+    } else if (options.some((elem) => elem === "--mermaid")) {
+      graphToMermaid(graph.implementation, createStreamOrStdout());
     }
   });
 }
