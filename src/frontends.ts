@@ -2,7 +2,7 @@ import ts from "typescript";
 
 import { AdjacencyList } from "./graph";
 
-export class JsonNode {
+class JsonNode {
   name: string;
   parent: string | null;
   children: Array<JsonNode>;
@@ -14,7 +14,15 @@ export class JsonNode {
   }
 }
 
-export function graphToJSON(graph: AdjacencyList): JsonNode {
+export function graphToJSON(
+  graph: AdjacencyList,
+  stream: NodeJS.WritableStream
+): void {
+  const root = graphToJSONNode(graph);
+  stream.write(JSON.stringify(root, null, 2));
+}
+
+function graphToJSONNode(graph: AdjacencyList): JsonNode {
   const size = graph.adjacencyList.size; // TODO unused
   const keys = Array.from(graph.adjacencyList.keys());
   let visited = new Set<string>();
@@ -53,7 +61,7 @@ export function graphToJSON(graph: AdjacencyList): JsonNode {
 export function graphToMarkMap(
   graph: AdjacencyList,
   stream: NodeJS.WritableStream
-) {
+): void {
   const separator = "  ";
   const firstLevelAnchor = "#";
   const otherAnchor = "-";
@@ -92,7 +100,7 @@ export function graphToMarkMap(
   treeBuilder(0, 0);
 }
 
-function writeMarkmapHeader(stream: NodeJS.WritableStream) {
+function writeMarkmapHeader(stream: NodeJS.WritableStream): void {
   stream.write(
     `---
 markmap:
@@ -105,7 +113,7 @@ markmap:
 export function graphToMermaid(
   graph: AdjacencyList,
   stream: NodeJS.WritableStream
-) {
+): void {
   const separator = "\t";
   const endLine = "\n";
   const edge = " --> ";
