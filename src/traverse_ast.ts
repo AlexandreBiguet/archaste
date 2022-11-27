@@ -1,6 +1,6 @@
 import ts from "typescript";
 import { createWriteStream, readFileSync } from "fs";
-import { ASTVisitor } from "./visitors";
+import { ASTVisitorInterface } from "./visitors";
 import { graphToJSON, graphToMarkMap, graphToMermaid } from "./frontends";
 
 let dependencies = new Map<string, boolean>();
@@ -8,7 +8,7 @@ let dependencies = new Map<string, boolean>();
 export function traverseAST(
   sourceFile: ts.SourceFile,
   node: ts.Node,
-  visitors: Array<ASTVisitor>,
+  visitors: Array<ASTVisitorInterface>,
   depth: number = 1
 ) {
   // WIP: The first node of the graph is the first element of
