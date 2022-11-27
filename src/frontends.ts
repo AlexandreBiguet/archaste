@@ -35,13 +35,14 @@ function graphToJSONNode(graph: AdjacencyList): JsonNode {
     let children = new Array<JsonNode>();
 
     if (childrenString !== undefined) {
-      children = childrenString.map((elem) => {
-        if (!visited.has(elem)) {
+      children = childrenString
+        .filter((elem) => {
+          return !visited.has(elem);
+        })
+        .map((elem) => {
           const indexOfElem = keys.indexOf(elem);
           return treeBuilder(indexOfElem, name);
-        }
-        return { name: name, parent: parent, children: [] };
-      });
+        });
     }
 
     let node: JsonNode = {
