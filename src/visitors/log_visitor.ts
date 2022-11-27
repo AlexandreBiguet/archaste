@@ -1,6 +1,14 @@
 import ts from "typescript";
 import { ASTVisitorInterface } from "../visitors";
-import { locationInFile } from "../frontends";
+
+function locationInFile(sourceFile: ts.SourceFile, node: ts.Node): string {
+  const { line, character } = sourceFile.getLineAndCharacterOfPosition(
+    node.getStart()
+  );
+  return (
+    `${sourceFile.fileName}:` + `${line + 1}:${character + 1}`.padEnd(6) + "-"
+  );
+}
 
 export class LogVisitor implements ASTVisitorInterface {
   separator: string = "-";
