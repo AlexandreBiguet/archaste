@@ -13,6 +13,9 @@ export function traverseAST(
   visitors: Array<ASTVisitor>,
   depth: number = 1
 ) {
+  // WIP: The first node of the graph is the first element of
+  //   the deepest file in the import tree
+
   if (ts.isImportDeclaration(node)) {
     // Note - for now this only takes into account imports that can be resolved
     //  (basically files from the same repo)
@@ -50,6 +53,8 @@ export function traverseAST(
           }
         }
       });
+
+    visitors.forEach((vis) => vis.onImportStatement(sourceFile, node, depth));
   }
 
   dependencies.set(sourceFile.fileName, true);
@@ -80,6 +85,10 @@ export function createSourceFile(fileName: string): ts.SourceFile {
   );
 }
 
+export function printGraphImplementation(): void {
+  console.log(importGraph.implementation);
+}
+
 export function getImportTreeAsJSONString(): string {
   return JSON.stringify(graphToJSON(importGraph.implementation), null, 2); // :shrug:
 }
@@ -96,7 +105,7 @@ export function writeImportTreeAsMermaidFile(
   graphToMermaid(importGraph.implementation, createStreamOrStdout(filename));
 }
 
-function createStreamOrStdout(
+export function createStreamOrStdout(
   filename: string | undefined = undefined
 ): NodeJS.WritableStream {
   let stream = createWriteStream("", { fd: process.stdout.fd });

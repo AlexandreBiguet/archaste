@@ -72,16 +72,22 @@ export class JsonNode {
 export function graphToJSON(graph: AdjacencyList): JsonNode {
   const size = graph.adjacencyList.size; // TODO unused
   const keys = Array.from(graph.adjacencyList.keys());
+  let visited = new Set<string>();
 
   let treeBuilder = (keyIndex: number, parent: string | null) => {
     const name = keys[keyIndex];
+    visited.add(name);
     const childrenString = graph.adjacencyList.get(name);
+
     let children = new Array<JsonNode>();
 
     if (childrenString !== undefined) {
       children = childrenString.map((elem) => {
-        const indexOfElem = keys.indexOf(elem);
-        return treeBuilder(indexOfElem, name);
+        if (!visited.has(elem)) {
+          const indexOfElem = keys.indexOf(elem);
+          return treeBuilder(indexOfElem, name);
+        }
+        return { name: name, parent: parent, children: [] };
       });
     }
 
@@ -110,6 +116,7 @@ export function graphToMarkMap(
   const space = " ";
 
   const keys = Array.from(graph.adjacencyList.keys());
+  let visited = new Set<string>();
 
   let treeBuilder = (depth: number, keyIndex: number) => {
     if (depth === 0) {
@@ -124,12 +131,15 @@ export function graphToMarkMap(
     if (depth === 0) {
       stream.write(endLine);
     }
+    visited.add(name);
 
     const children = graph.adjacencyList.get(name);
 
     children?.map((elem) => {
-      const index = keys.indexOf(elem);
-      treeBuilder(depth + 1, index);
+      if (!visited.has(elem)) {
+        const index = keys.indexOf(elem);
+        treeBuilder(depth + 1, index);
+      }
     });
   };
 
