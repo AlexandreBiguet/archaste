@@ -23,7 +23,6 @@ export function graphToJSON(
 }
 
 function graphToJSONNode(graph: AdjacencyList): JsonNode {
-  const size = graph.adjacencyList.size; // TODO unused
   const keys = Array.from(graph.adjacencyList.keys());
   let visited = new Set<string>();
 

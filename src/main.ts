@@ -36,7 +36,6 @@ function main() {
 
     if (options.some((elem) => elem === "--importJson")) {
       graphToJSON(graph.implementation, createStreamOrStdout());
-      // console.log(JSON.stringify(graphToJSON(graph.implementation), null, 2));
     } else if (options.some((elem) => elem === "--markmap")) {
       graphToMarkMap(graph.implementation, createStreamOrStdout());
     } else if (options.some((elem) => elem === "--mermaid")) {
