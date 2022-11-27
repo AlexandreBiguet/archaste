@@ -11,8 +11,6 @@ export function traverseAST(
   visitors: Array<ASTVisitorInterface>,
   depth: number = 1
 ) {
-  // WIP: The first node of the graph is the first element of
-  //   the deepest file in the import tree
 
   if (ts.isImportDeclaration(node)) {
     // Note - for now this only takes into account imports that can be resolved
