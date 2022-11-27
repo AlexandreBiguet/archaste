@@ -13,6 +13,7 @@ export class AdjacencyList implements GraphImplementation {
       this.adjacencyList.set(node1, [node2]);
     }
 
+    // TODO: this is a hack - should be handled downstream
     this.add_leaf_node_name_for_lookup(node2);
   }
 

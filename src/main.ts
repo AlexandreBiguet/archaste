@@ -1,7 +1,12 @@
 import { existsSync } from "fs";
 
-import { printTree } from "./frontends";
-import { LogVisitor } from "./visitors";
+import {
+  printTree,
+  graphToJSON,
+  graphToMarkMap,
+  graphToMermaid,
+} from "./frontends";
+import { ASTVisitor, LogVisitor, Visitor } from "./visitors";
 
 import {
   createSourceFile,
@@ -9,10 +14,15 @@ import {
   getImportTreeAsJSONString,
   writeImportTreeAsMarkMapFile,
   writeImportTreeAsMermaidFile,
+  printGraphImplementation,
+  createStreamOrStdout,
 } from "./traverse_ast";
+import { Graph } from "./graph";
 
 // https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API#traversing-the-ast-with-a-little-linter
 // https://learning-notes.mistermicheels.com/javascript/typescript/compiler-api/
+
+const USE_VISITOR: boolean = true;
 
 function main() {
   const args = process.argv.slice(2);
@@ -31,18 +41,34 @@ function main() {
     if (options.some((elem) => elem === "--tree")) {
       printTree(sourceFile, sourceFile);
     } else {
-      let visitors: Array<LogVisitor> = [];
+      let visitors: Array<ASTVisitor> = [];
       if (options.some((elem) => elem === "--log-visitor")) {
-        visitors = [new LogVisitor()];
+        visitors.push(new LogVisitor());
       }
+
+      let graph = new Graph();
+      visitors.push(new Visitor(graph));
+
       traverseAST(sourceFile, sourceFile, visitors);
 
-      if (options.some((elem) => elem === "--importJson")) {
-        console.log(getImportTreeAsJSONString());
-      } else if (options.some((elem) => elem === "--markmap")) {
-        writeImportTreeAsMarkMapFile();
-      } else if (options.some((elem) => elem === "--mermaid")) {
-        writeImportTreeAsMermaidFile();
+      if (USE_VISITOR) {
+        if (options.some((elem) => elem === "--importJson")) {
+          console.log(
+            JSON.stringify(graphToJSON(graph.implementation), null, 2)
+          );
+        } else if (options.some((elem) => elem === "--markmap")) {
+          graphToMarkMap(graph.implementation, createStreamOrStdout());
+        } else if (options.some((elem) => elem === "--mermaid")) {
+          graphToMermaid(graph.implementation, createStreamOrStdout());
+        }
+      } else {
+        if (options.some((elem) => elem === "--importJson")) {
+          console.log(getImportTreeAsJSONString());
+        } else if (options.some((elem) => elem === "--markmap")) {
+          writeImportTreeAsMarkMapFile();
+        } else if (options.some((elem) => elem === "--mermaid")) {
+          writeImportTreeAsMermaidFile();
+        }
       }
     }
   });
