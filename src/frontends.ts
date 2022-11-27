@@ -2,18 +2,6 @@ import ts from "typescript";
 
 import { AdjacencyList } from "./graph";
 
-export function locationInFile(
-  sourceFile: ts.SourceFile,
-  node: ts.Node
-): string {
-  const { line, character } = sourceFile.getLineAndCharacterOfPosition(
-    node.getStart()
-  );
-  return (
-    `${sourceFile.fileName}:` + `${line + 1}:${character + 1}`.padEnd(6) + "-"
-  );
-}
-
 export class JsonNode {
   name: string;
   parent: string | null;
