@@ -1,5 +1,5 @@
 import { existsSync } from "fs";
-
+import { createWriteStream } from "fs";
 import {
   printTree,
   graphToJSON,
@@ -8,21 +8,11 @@ import {
 } from "./frontends";
 import { ASTVisitor, LogVisitor, Visitor } from "./visitors";
 
-import {
-  createSourceFile,
-  traverseAST,
-  getImportTreeAsJSONString,
-  writeImportTreeAsMarkMapFile,
-  writeImportTreeAsMermaidFile,
-  printGraphImplementation,
-  createStreamOrStdout,
-} from "./traverse_ast";
+import { createSourceFile, traverseAST } from "./traverse_ast";
 import { Graph } from "./graph";
 
 // https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API#traversing-the-ast-with-a-little-linter
 // https://learning-notes.mistermicheels.com/javascript/typescript/compiler-api/
-
-const USE_VISITOR: boolean = true;
 
 function main() {
   const args = process.argv.slice(2);
@@ -51,27 +41,27 @@ function main() {
 
       traverseAST(sourceFile, sourceFile, visitors);
 
-      if (USE_VISITOR) {
-        if (options.some((elem) => elem === "--importJson")) {
-          console.log(
-            JSON.stringify(graphToJSON(graph.implementation), null, 2)
-          );
-        } else if (options.some((elem) => elem === "--markmap")) {
-          graphToMarkMap(graph.implementation, createStreamOrStdout());
-        } else if (options.some((elem) => elem === "--mermaid")) {
-          graphToMermaid(graph.implementation, createStreamOrStdout());
-        }
-      } else {
-        if (options.some((elem) => elem === "--importJson")) {
-          console.log(getImportTreeAsJSONString());
-        } else if (options.some((elem) => elem === "--markmap")) {
-          writeImportTreeAsMarkMapFile();
-        } else if (options.some((elem) => elem === "--mermaid")) {
-          writeImportTreeAsMermaidFile();
-        }
+      if (options.some((elem) => elem === "--importJson")) {
+        console.log(JSON.stringify(graphToJSON(graph.implementation), null, 2));
+      } else if (options.some((elem) => elem === "--markmap")) {
+        graphToMarkMap(graph.implementation, createStreamOrStdout());
+      } else if (options.some((elem) => elem === "--mermaid")) {
+        graphToMermaid(graph.implementation, createStreamOrStdout());
       }
     }
   });
+}
+
+function createStreamOrStdout(
+  filename: string | undefined = undefined
+): NodeJS.WritableStream {
+  let stream = createWriteStream("", { fd: process.stdout.fd });
+
+  if (filename !== undefined) {
+    stream = createWriteStream(filename);
+  }
+
+  return stream;
 }
 
 main();
