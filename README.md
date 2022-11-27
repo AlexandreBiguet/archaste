@@ -14,7 +14,26 @@ As this is a personal project, I'd also like to have some fun.
 
 This tool uses the typescript compiler to analyze the code, and hopefully solve the problem. (This is probably not the best of ideas, but it's fun )
 
-## How to run
+## Current State
+
+For now, the tool offers you a way to generate the import tree from a single typescript source file.
+
+### Example
+
+The `samples` directory contains a bunch of files from which a mermaid import tree can be generated
+
+```mermaid
+graph TD
+        samples/baz.ts --> samples/foo.ts
+        samples/baz.ts --> samples/foobar.ts
+        samples/foo.ts --> samples/bar.ts
+        samples/foo.ts --> samples/baz.ts
+        samples/bar.ts --> samples/baz.ts
+```
+
+or a [MarkMap](https://markmap.js.org/):
+
+![Not found](./samples/imports.gif)
 
 ### MarkMap
 
@@ -37,8 +56,6 @@ npm run --silent main <path-to-file> -- --mermaid
 This will write to standard output a mermaid compatible markdown file.
 
 ### D3.js
-
-(doesn't work well for now)
 
 The `sites` directory contains the webpage for rendering the tree. For now, the tree is materialized in a json file named `tree.json`.
 
