@@ -3,7 +3,7 @@ import { createWriteStream, readFileSync } from "fs";
 import { ASTVisitorInterface } from "./visitors";
 import { graphToJSON, graphToMarkMap, graphToMermaid } from "./frontends";
 
-let dependencies = new Map<string, boolean>();
+let dependencies = new Set<string>();
 
 export function traverseAST(
   sourceFile: ts.SourceFile,
@@ -40,9 +40,8 @@ export function traverseAST(
           const importLoc = resolvedImport.resolvedModule?.resolvedFileName;
           if (importLoc !== undefined) {
             if (!dependencies.has(importLoc)) {
-              dependencies.set(importLoc, false);
+              dependencies.add(importLoc);
               const moduleSourceFile = createSourceFile(importLoc);
-
               traverseAST(moduleSourceFile, moduleSourceFile, visitors);
             }
           }
@@ -52,7 +51,7 @@ export function traverseAST(
     visitors.forEach((vis) => vis.onImportStatement(sourceFile, node, depth));
   }
 
-  dependencies.set(sourceFile.fileName, true);
+  dependencies.add(sourceFile.fileName);
 
   if (ts.isArrowFunction(node)) {
     visitors.forEach((vis) => vis.onArrowFunc(sourceFile, node, depth));
